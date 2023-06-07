@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = require("./config/config");
-// import morgan from "morgan";
 const Logging_1 = __importDefault(require("./library/Logging"));
 const app = (0, express_1.default)();
 // connect to mongo
@@ -14,19 +13,51 @@ mongoose_1.default
     .connect(config_1.config.mongo.url)
     .then(() => {
     Logging_1.default.info("connected to db");
+    startServer();
 })
     .catch((error) => {
-    console.log(error);
+    Logging_1.default.error(error);
 });
-//app.use(morgan("dev"));
-// if (process.env.NODE_ENV == "development") {
-//   app.use(morgan("dev"));
-//   console.log(`mode ${process.env.NODE_ENV}`);
-// }
-const port = process.env.PORT || 3000;
-app.get("/", (req, res) => {
-    res.send("Express + TypeScript Server");
-});
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-});
+// start thesever if mongo is connected
+const startServer = () => {
+    // logging req
+    app.use((req, res, next) => {
+        Logging_1.default.info(`Incomming - METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`);
+        res.on("finish", () => {
+            /** Log the res */
+            Logging_1.default.info(`Result - METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}] - STATUS: [${res.statusCode}]`);
+        });
+        next();
+    });
+    app.use(express_1.default.urlencoded({ extended: true }));
+    app.use(express_1.default.json());
+    const port = process.env.PORT || 8000;
+    app.get("/", (req, res) => {
+        res.send("Express + TypeScript Server");
+        Logging_1.default.info(res.statusCode);
+    });
+    app.get("/test", (req, res) => {
+        res.status(200).json({ message: "aww" });
+        Logging_1.default.info(res.statusCode);
+    });
+    // Error Handling
+    app.use((req, res, next) => {
+        const error = new Error("not found");
+        Logging_1.default.error(error);
+        return res.status(404).json({ message: error.message });
+    });
+    /** Rules of our API */
+    app.use((req, res, next) => {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+        if (req.method == "OPTIONS") {
+            res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+            return res.status(200).json({});
+        }
+        next();
+    });
+    //http.createServer(app).listen(config.server.port, () => Logging.info(`Server is running on port ${config.server.port}`));
+    app.listen(port, () => {
+        Logging_1.default.info(`Server is running on http://localhost:${port}`);
+    });
+};
