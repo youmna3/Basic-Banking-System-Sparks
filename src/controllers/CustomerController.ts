@@ -32,4 +32,5 @@ const getAllCustomers = (req: Request, res: Response, next: NextFunction) => {
     .catch((err) => res.status(500).json({ err }));
 };
 const updateCustomer = (req: Request, res: Response, next: NextFunction) => {};
-export default { createCustomer, getAllCustomers };
+
+export default { createCustomer, getAllCustomers, getCustomer };
