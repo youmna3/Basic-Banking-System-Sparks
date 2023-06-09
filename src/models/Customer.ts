@@ -13,7 +13,7 @@ const CustomerSchema: Schema = new Schema(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    account_number: { type: String, required: true, unique: true },
+    account_number: { type: String, required: true },
     balance: { type: Number, required: true },
   },
   {

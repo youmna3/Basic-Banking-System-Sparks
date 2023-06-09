@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { config } from "./config/config";
 import Logging from "./library/Logging";
 import customerRoute from "./routes/customer";
+import transferRoute from "./routes/Transfer";
 const app = express();
 
 // connect to mongo
@@ -55,6 +56,7 @@ const startServer = () => {
   });
   // Routes
   app.use("/customer", customerRoute);
+  app.use("/transfer", transferRoute);
   const port = process.env.PORT || 8000;
 
   app.get("/", (req, res) => {
