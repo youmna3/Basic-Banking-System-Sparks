@@ -24,13 +24,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const CustomerSchema = new mongoose_1.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    account_number: { type: String, required: true, unique: true },
-    balance: { type: Number, required: true },
+const TransferShema = new mongoose_1.Schema({
+    sender: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: 'Customer' },
+    receiver: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: 'Customer' },
+    amount: { type: Number, required: true },
 }, {
     timestamps: true,
     versionKey: false,
 });
-exports.default = mongoose_1.default.model('Customer', CustomerSchema);
+exports.default = mongoose_1.default.model('Transfer', TransferShema);
