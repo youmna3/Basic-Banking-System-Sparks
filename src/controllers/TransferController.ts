@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import mongoose from "mongoose";
-import Customer from "../models/Customer";
-import Transfer from "../models/Transfer";
+import { NextFunction, Request, Response } from 'express';
+import mongoose from 'mongoose';
+import Customer from '../models/Customer';
+import Transfer from '../models/Transfer';
 
 const sendMoney = async (req: Request, res: Response, next: NextFunction) => {
   const { senderAccountNumber, receiverAccountNumber, amount } = req.body;
@@ -14,11 +14,11 @@ const sendMoney = async (req: Request, res: Response, next: NextFunction) => {
     });
 
     if (!receiver) {
-      return res.status(400).json({ error: "Invalid account number" });
+      return res.status(400).json({ error: 'Invalid account number' });
     }
 
     if (sender.balance < amount) {
-      return res.status(400).json({ error: "Insufficient balance" });
+      return res.status(400).json({ error: 'Insufficient balance' });
     } else {
       const newSenderBalance = Number(sender.balance) - Number(amount);
       const newReceiverBalance = Number(receiver.balance) + Number(amount);
@@ -44,20 +44,25 @@ const sendMoney = async (req: Request, res: Response, next: NextFunction) => {
     }
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ error: 'Internal server error' });
   }
 };
 const getCustomerTransfer = async (req: Request, res: Response) => {
   const account_number = req.params.accountNumber;
-  const customer = await Customer.findOne({ account_number });
-  if (!customer) {
-    return res.status(404).send("Customer not found");
+  try {
+    const customer = await Customer.findOne({ account_number });
+    if (!customer) {
+      return res.status(404).send('Customer not found');
+    }
+    const transfers = await Transfer.find({
+      $or: [{ sender: customer._id }, { receiver: customer._id }],
+    });
+    // Return the transfers as a response
+    res.status(201).json({ message: "Customer's transactions", transfers });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ err: 'Internal server error' });
   }
-  const transfers = await Transfer.find({
-    $or: [{ sender: customer._id }, { receiver: customer._id }],
-  });
-  // Return the transfers as a response
-  res.json(transfers);
 };
 
 export default { sendMoney, getCustomerTransfer };

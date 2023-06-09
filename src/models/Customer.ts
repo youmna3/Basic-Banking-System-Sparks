@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema } from 'mongoose';
 
 export interface ICustomer {
   name: string;
@@ -21,4 +21,4 @@ const CustomerSchema: Schema = new Schema(
     versionKey: false,
   }
 );
-export default mongoose.model<ICustomerModel>("Customer", CustomerSchema);
+export default mongoose.model<ICustomerModel>('Customer', CustomerSchema);
