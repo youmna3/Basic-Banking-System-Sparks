@@ -1,0 +1,23 @@
+<table class="table table-bright table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Account Number</th>
+            <th scope="col">Balance</th>
+            <th scope="col">Transactions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let customer of customers">
+            <th scope="row">{{customer.id}}</th>
+            <td>{{customer.name}}</td>
+            <td>{{customer.email}}</td>
+            <td>{{customer.account_number}}</td>
+            <td>${{customer.balance}}</td>
+            <td><button (click)="getTransfer(customer.account_number)" routerLink="/transferinfo" type="button"
+                    class="btn btn-info"> Info</button></td>
+        </tr>
+    </tbody>
+</table>
