@@ -27,6 +27,9 @@ const sendMoney = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         if (!receiver) {
             return res.status(400).json({ error: 'Invalid account number' });
         }
+        if (sender.account_number === receiver.account_number) {
+            return res.status(400).json({ error: 'Invalid account number' });
+        }
         if (sender.balance < amount) {
             return res.status(400).json({ error: 'Insufficient balance' });
         }
@@ -51,7 +54,7 @@ const sendMoney = (req, res, next) => __awaiter(void 0, void 0, void 0, function
     }
 });
 const getCustomerTransfer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const account_number = req.params.accountNumber;
+    const { account_number } = req.body;
     try {
         const customer = yield Customer_1.default.findOne({ account_number });
         if (!customer) {

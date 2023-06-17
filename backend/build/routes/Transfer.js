@@ -6,5 +6,5 @@ const express_1 = __importDefault(require("express"));
 const TransferController_1 = __importDefault(require("../controllers/TransferController"));
 const router = express_1.default.Router();
 router.post('/transfer', TransferController_1.default.sendMoney);
-router.get('/:accountNumber', TransferController_1.default.getCustomerTransfer);
+router.post('/account', TransferController_1.default.getCustomerTransfer);
 module.exports = router;

@@ -16,7 +16,9 @@ const sendMoney = async (req: Request, res: Response, next: NextFunction) => {
     if (!receiver) {
       return res.status(400).json({ error: 'Invalid account number' });
     }
-
+    if (sender.account_number === receiver.account_number) {
+      return res.status(400).json({ error: 'Invalid account number' });
+    }
     if (sender.balance < amount) {
       return res.status(400).json({ error: 'Insufficient balance' });
     } else {
@@ -48,7 +50,7 @@ const sendMoney = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 const getCustomerTransfer = async (req: Request, res: Response) => {
-  const account_number = req.params.accountNumber;
+  const { account_number } = req.body;
   try {
     const customer = await Customer.findOne({ account_number });
     if (!customer) {

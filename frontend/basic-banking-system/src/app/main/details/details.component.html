@@ -8,10 +8,12 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
+        <div *ngIf="transfers"></div>
+        <tr *ngFor="let transfer of transfers">
             <th scope="row"></th>
-            <td></td>
-            <td></td>
+            <td>{{transfer.sender}}</td>
+            <td>{{transfer.receiver}}</td>
+            <td>{{transfer.amount}}</td>
         </tr>
     </tbody>
 </table>

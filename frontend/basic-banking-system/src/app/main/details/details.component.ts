@@ -1,27 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { TransferService } from 'src/app/services/transfer.service';
 import { Transfer } from 'src/app/interfaces/transfer';
-import { Customer } from 'src/app/interfaces/customer';
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.css'],
 })
-export class DetailsComponent implements OnInit {
-  constructor(public transferService: TransferService) {}
-  customers: Customer[] = [];
+export class DetailsComponent {
   transfers: Transfer[] = [];
-  accountNo: string = 'FS2458';
+  //account_number: string = '';
+  constructor(public transferService: TransferService) {}
   ngOnInit(): void {
-    this.getTransfer();
+    const accountNumber = 'FS2458';
+    this.getTransfer(accountNumber);
   }
-  async getTransfer() {
-    (await this.transferService.getcustomerTransfers(this.accountNo)).subscribe(
-      {
-        next: (res: any) => {
-          (this.transfers = res['transfers']), console.log(this.transfers);
-        },
-      }
-    );
+  getTransfer(accountNumber: string) {
+    this.transferService.getcustomerTransfers(accountNumber).subscribe({
+      next: (res: any) => {
+        this.transfers = res.transfers;
+        console.log(this.transfers);
+      },
+      error: (err: any) => console.log(err),
+      complete: () => {
+        alert('Your request has been sent Successfully!');
+      },
+    });
   }
 }

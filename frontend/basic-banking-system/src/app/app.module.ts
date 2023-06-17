@@ -9,6 +9,7 @@ import { HomeComponent } from './main/home/home.component';
 import { UsersComponent } from './main/users/users.component';
 import { TransferComponent } from './main/transfer/transfer.component';
 import { DetailsComponent } from './main/details/details.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,13 @@ import { DetailsComponent } from './main/details/details.component';
     TransferComponent,
     DetailsComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

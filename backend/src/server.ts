@@ -70,7 +70,7 @@ const startServer = () => {
   app.use((req, res, next) => {
     const error = new Error('not found');
     Logging.error(error);
-    return res.status(404).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   });
   //http.createServer(app).listen(config.server.port, () => Logging.info(`Server is running on port ${config.server.port}`));
 

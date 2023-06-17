@@ -7,7 +7,12 @@ import { environment } from 'src/environments/environment.development';
 })
 export class TransferService {
   constructor(private http: HttpClient) {}
-  async getcustomerTransfers(accountNumber: string) {
-    return this.http.get(`${environment.apiURL}api/transfer/${accountNumber}`);
+
+  getcustomerTransfers(accountNumber: string) {
+    const body = { account_number: accountNumber };
+    return this.http.post(`${environment.apiURL}api/transfer/account`, body);
+  }
+  transferMoney(data: object) {
+    return this.http.post(`${environment.apiURL}api/transfer/transfer`, data);
   }
 }

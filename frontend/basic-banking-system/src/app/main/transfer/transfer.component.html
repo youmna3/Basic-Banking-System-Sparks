@@ -1,1 +1,24 @@
-<p>transfer works!</p>
+<div class="container">
+    <div class="row gutters-sm">
+        <h3 class="d-flex justify-content-center">Send Money</h3>
+        <hr>
+        <form [formGroup]="transferMoney" id="transferMoney" (ngSubmit)="sendMoney()">
+            <label>Sender</label>
+            <select class="form-select col-4" aria-label="Default select example" formControlName="senderAccountNumber">
+                <option></option>
+                <option *ngFor="let customer of customers">{{customer.account_number}}
+                </option>
+            </select>
+            <label>Receiver</label>
+            <select class="form-select col-5" aria-label="Default select example"
+                formControlName="receiverAccountNumber">
+                <option></option>
+                <option *ngFor="let customer of customers">{{customer.account_number}}
+                </option>
+            </select>
+            <label>Amount</label>
+            <input type="number" class="form-control" formControlName="amount">
+            <button type="submit" class="btn btn-primary my-1">Submit</button>
+        </form>
+    </div>
+</div>
