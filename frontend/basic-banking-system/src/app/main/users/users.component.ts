@@ -4,12 +4,7 @@ import { Customer } from 'src/app/interfaces/customer';
 import { Transfer } from 'src/app/interfaces/transfer';
 import { TransferService } from 'src/app/services/transfer.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -41,10 +36,15 @@ export class UsersComponent {
       complete: () => {},
     });
   }
-  getTransfer(accountNumber: string) {
-    this.transferService.getcustomerTransfers(accountNumber).subscribe({
+  showTransfers(accountNumber: string) {
+    this.router.navigate(['/transferinfo', accountNumber]);
+  }
+  /*
+  getTransfer(account_number: string) {
+    this.transferService.getcustomerTransfers(account_number).subscribe({
       next: (res: any) => {
         this.transfers = res.transfers;
+        this.router.navigate(['/transferinfo', account_number]);
         console.log(this.transfers);
       },
       error: (err: any) => console.log(err),
@@ -53,4 +53,5 @@ export class UsersComponent {
       },
     });
   }
+  */
 }

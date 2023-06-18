@@ -25,8 +25,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const TransferShema = new mongoose_1.Schema({
-    sender: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: 'Customer' },
-    receiver: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: 'Customer' },
+    sender: { type: mongoose_1.Schema.Types.String, required: true, ref: 'Customer' },
+    receiver: { type: mongoose_1.Schema.Types.String, required: true, ref: 'Customer' },
     amount: { type: Number, required: true },
 }, {
     timestamps: true,

@@ -1,4 +1,32 @@
-<table class="table table-bright table-striped">
+<div class="container">
+    <div class="row gutters-sm">
+        <h3 class="d-flex justify-content-center">Customer Details</h3>
+        <hr>
+        <table class="table table-bright table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Sender Account No.</th>
+                    <th scope="col">Receiver Account No.</th>
+                    <th scope="col">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let transfer of transfers">
+                    <th scope="row">{{transfer.id}}</th>
+                    <td>{{transfer.sender}}</td>
+                    <td>{{transfer.receiver}}</td>
+                    <td>{{transfer.amount}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+<!-- <table class="table table-bright table-striped">
     <thead>
         <tr>
             <th scope="col">#</th>
@@ -16,4 +44,4 @@
             <td>{{transfer.amount}}</td>
         </tr>
     </tbody>
-</table>
+</table> -->

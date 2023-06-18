@@ -36,8 +36,8 @@ const sendMoney = async (req: Request, res: Response, next: NextFunction) => {
 
       const transfer = new Transfer({
         _id: new mongoose.Types.ObjectId(),
-        sender: sender._id,
-        receiver: receiver._id,
+        sender: sender.account_number,
+        receiver: receiver.account_number,
         amount,
       });
 
@@ -57,7 +57,10 @@ const getCustomerTransfer = async (req: Request, res: Response) => {
       return res.status(404).send('Customer not found');
     }
     const transfers = await Transfer.find({
-      $or: [{ sender: customer._id }, { receiver: customer._id }],
+      $or: [
+        { sender: customer.account_number },
+        { receiver: customer.account_number },
+      ],
     });
     // Return the transfers as a response
     res.status(201).json({ message: "Customer's transactions", transfers });

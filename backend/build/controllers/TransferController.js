@@ -40,8 +40,8 @@ const sendMoney = (req, res, next) => __awaiter(void 0, void 0, void 0, function
             yield Customer_1.default.findOneAndUpdate({ account_number: receiverAccountNumber }, { balance: newReceiverBalance });
             const transfer = new Transfer_1.default({
                 _id: new mongoose_1.default.Types.ObjectId(),
-                sender: sender._id,
-                receiver: receiver._id,
+                sender: sender.account_number,
+                receiver: receiver.account_number,
                 amount,
             });
             yield transfer.save();
@@ -61,7 +61,10 @@ const getCustomerTransfer = (req, res) => __awaiter(void 0, void 0, void 0, func
             return res.status(404).send('Customer not found');
         }
         const transfers = yield Transfer_1.default.find({
-            $or: [{ sender: customer._id }, { receiver: customer._id }],
+            $or: [
+                { sender: customer.account_number },
+                { receiver: customer.account_number },
+            ],
         });
         // Return the transfers as a response
         res.status(201).json({ message: "Customer's transactions", transfers });

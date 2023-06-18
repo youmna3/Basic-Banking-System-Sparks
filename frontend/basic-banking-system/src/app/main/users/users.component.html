@@ -1,5 +1,7 @@
 <div class="container">
     <div class="row gutters-sm">
+        <h3 class="d-flex justify-content-center">Customers</h3>
+        <hr>
         <table class="table table-bright table-striped">
             <thead>
                 <tr>
@@ -18,8 +20,7 @@
                     <td>{{customer.email}}</td>
                     <td>{{customer.account_number}}</td>
                     <td>{{customer.balance | currency}}</td>
-                    <td><a (click)="getTransfer(customer.account_number)" routerLink="/transferinfo" type="button"
-                            class="btn btn-info"> Info</a>
+                    <td><a (click)="showTransfers(customer.account_number)" type="button" class="btn btn-info"> Info</a>
 
                     </td>
                 </tr>
