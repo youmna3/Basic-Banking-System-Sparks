@@ -39,19 +39,4 @@ export class UsersComponent {
   showTransfers(accountNumber: string) {
     this.router.navigate(['/transferinfo', accountNumber]);
   }
-  /*
-  getTransfer(account_number: string) {
-    this.transferService.getcustomerTransfers(account_number).subscribe({
-      next: (res: any) => {
-        this.transfers = res.transfers;
-        this.router.navigate(['/transferinfo', account_number]);
-        console.log(this.transfers);
-      },
-      error: (err: any) => console.log(err),
-      complete: () => {
-        alert('Your request has been sent Successfully!');
-      },
-    });
-  }
-  */
 }
