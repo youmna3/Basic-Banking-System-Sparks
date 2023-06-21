@@ -77,6 +77,6 @@ const startServer = () => {
 
   const port = process.env.PORT || 8000;
   app.listen(port, () => {
-    Logging.info(`Server is running on http://localhost:${port}`);
+    Logging.info(`Server is running on newapp-xf7k.onrender.com`);
   });
 };

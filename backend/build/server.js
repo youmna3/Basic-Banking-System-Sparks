@@ -44,15 +44,10 @@ const startServer = () => {
         }
         next();
     });
-    // middleware serves static files from the dist folder
     app.use('/api/customers', customer_1.default);
     app.use('/api/transfer', Transfer_1.default);
     // middleware serves static files from the dist folder
     app.use(express_1.default.static(__dirname + '/dist/basic-banking-system'));
-    // app.get('/', (req, res) => {
-    //   res.send('Home');
-    //   Logging.info(res.statusCode);
-    // });
     // catch-all route to serve the Angular app
     app.get('*', (req, res) => {
         res.sendFile(path_1.default.join(__dirname, 'dist/basic-banking-system/index.html'));
@@ -65,6 +60,6 @@ const startServer = () => {
     });
     const port = process.env.PORT || 8000;
     app.listen(port, () => {
-        Logging_1.default.info(`Server is running on http://localhost:${port}`);
+        Logging_1.default.info(`Server is running on newapp-xf7k.onrender.com`);
     });
 };
