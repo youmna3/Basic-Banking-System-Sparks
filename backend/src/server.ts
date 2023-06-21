@@ -1,10 +1,11 @@
 import express, { Request, Response } from 'express';
-import http from 'http';
 import mongoose from 'mongoose';
 import { config } from './config/config';
 import Logging from './library/Logging';
 import customerRoute from './routes/customer';
 import transferRoute from './routes/Transfer';
+import path from 'path';
+
 const app = express();
 
 // connect to mongo
@@ -56,24 +57,25 @@ const startServer = () => {
     next();
   });
 
-  // Routes
-  //app.use("/");
   app.use('/api/customers', customerRoute);
   app.use('/api/transfer', transferRoute);
-  const port = process.env.PORT || 8000;
 
-  app.get('/', (req, res) => {
-    res.send('Home');
-    Logging.info(res.statusCode);
+  // middleware serves static files from the dist folder
+  app.use(express.static(__dirname + '/dist/basic-banking-system'));
+
+  // catch-all route to serve the Angular app
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist/basic-banking-system/index.html'));
   });
+
   // Error Handling
   app.use((req, res, next) => {
     const error = new Error('not found');
     Logging.error(error);
     return res.status(400).json({ message: error.message });
   });
-  //http.createServer(app).listen(config.server.port, () => Logging.info(`Server is running on port ${config.server.port}`));
 
+  const port = process.env.PORT || 8000;
   app.listen(port, () => {
     Logging.info(`Server is running on http://localhost:${port}`);
   });

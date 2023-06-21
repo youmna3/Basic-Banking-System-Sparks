@@ -9,6 +9,7 @@ const config_1 = require("./config/config");
 const Logging_1 = __importDefault(require("./library/Logging"));
 const customer_1 = __importDefault(require("./routes/customer"));
 const Transfer_1 = __importDefault(require("./routes/Transfer"));
+const path_1 = __importDefault(require("path"));
 const app = (0, express_1.default)();
 // connect to mongo
 mongoose_1.default
@@ -43,14 +44,18 @@ const startServer = () => {
         }
         next();
     });
-    // Routes
-    //app.use("/");
+    // middleware serves static files from the dist folder
     app.use('/api/customers', customer_1.default);
     app.use('/api/transfer', Transfer_1.default);
-    const port = process.env.PORT || 8000;
-    app.get('/', (req, res) => {
-        res.send('Home');
-        Logging_1.default.info(res.statusCode);
+    // middleware serves static files from the dist folder
+    app.use(express_1.default.static(__dirname + '/dist/basic-banking-system'));
+    // app.get('/', (req, res) => {
+    //   res.send('Home');
+    //   Logging.info(res.statusCode);
+    // });
+    // catch-all route to serve the Angular app
+    app.get('*', (req, res) => {
+        res.sendFile(path_1.default.join(__dirname, 'dist/basic-banking-system/index.html'));
     });
     // Error Handling
     app.use((req, res, next) => {
@@ -58,7 +63,7 @@ const startServer = () => {
         Logging_1.default.error(error);
         return res.status(400).json({ message: error.message });
     });
-    //http.createServer(app).listen(config.server.port, () => Logging.info(`Server is running on port ${config.server.port}`));
+    const port = process.env.PORT || 8000;
     app.listen(port, () => {
         Logging_1.default.info(`Server is running on http://localhost:${port}`);
     });
